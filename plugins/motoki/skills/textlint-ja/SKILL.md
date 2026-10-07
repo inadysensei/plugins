@@ -2,14 +2,14 @@
 name: textlint-ja
 description: >-
   日本語の文章をtextlintで検査し、指摘を直す。
-  シェルでtextlintを実行できるときに使う。実行できないときはtextlint-ja-textを使う。
+  シェルでtextlintを実行できるときに使う。実行できないときはproofread-jaを使う。
 ---
 
 # textlint-ja
 
 日本語をtextlintで検査し、指摘を直す。
 意味は変えない。言い回しはstop-ai-slop、技術文書の構成はtechnical-writingに従う。
-シェルでtextlintを実行できないときは、textlint-ja-textを使う。
+シェルでtextlintを実行できないときは、proofread-jaを使う。
 
 ## Step 1: 対象
 

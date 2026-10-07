@@ -282,17 +282,6 @@ run_case "最新の確認に失敗したら実行しない" test_aborts_when_lat
 run_case "更新に失敗したら実行しない" test_aborts_when_update_fails
 run_case "latest 以外の指定では実行しない" test_aborts_when_spec_is_not_latest
 run_case "未インストールなら導入してから最新を確認する" test_installs_then_checks_latest_when_cache_missing
-test_text_skill_does_not_run_textlint() {
-  local skill="$ROOT/../textlint-ja-text/SKILL.md"
-  [[ -f "$skill" ]]
-  grep -q '^name: textlint-ja-text$' "$skill"
-  grep -q '漢数字' "$skill"
-  grep -q '技術文書' "$skill"
-  grep -q '実行しない' "$skill"
-  ! grep -q 'lint.sh' "$skill"
-}
-
 run_case "プロジェクトの設定ではレジストリを見ない" test_project_config_skips_registry
-run_case "テキスト版は textlint を実行しない" test_text_skill_does_not_run_textlint
 
 exit "$failed"
