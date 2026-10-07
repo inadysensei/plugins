@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "motoki",
   "description": "motoki is a tool that helps you work with AI agents.",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "author": {
     "name": "inadysensei"
   },

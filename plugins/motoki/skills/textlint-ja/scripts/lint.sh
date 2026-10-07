@@ -109,7 +109,95 @@ if config="$(find_project_config)"; then
 fi
 
 stamp="$ROOT/scripts/runtime-package.json"
-if [[ ! -x "$CACHE/node_modules/.bin/textlint" ]] || [[ ! -f "$CACHE/package.json" ]] || ! cmp -s "$stamp" "$CACHE/package.json"; then
+
+runtime_dependency_names() {
+  node "$ROOT/scripts/check-latest-spec.js" "$stamp"
+}
+
+check_installed_version() {
+  local name="$1"
+  local result="$2"
+  local manifest="$CACHE/node_modules/$name/package.json"
+  local installed latest
+
+  if [[ ! -f "$manifest" ]]; then
+    printf 'stale\n' > "$result"
+    return 0
+  fi
+  if ! installed="$(node -p 'require(process.argv[1]).version' "$manifest")"; then
+    printf 'error\n' > "$result"
+    return 0
+  fi
+  if ! latest="$(npm view "$name" version)"; then
+    printf 'error\n' > "$result"
+    return 0
+  fi
+  latest="${latest##*$'\n'}"
+  latest="${latest//[[:space:]]/}"
+  if [[ -z "$latest" ]]; then
+    printf 'error\n' > "$result"
+    return 0
+  fi
+  if [[ "$installed" != "$latest" ]]; then
+    printf 'stale\n' > "$result"
+    return 0
+  fi
+  printf 'ok\n' > "$result"
+}
+
+# 0: すべて最新  1: 更新が必要  2: 確認できない
+runtime_is_current() {
+  local tmp names_file name slot=0 n state="ok" verdict
+  tmp="$(mktemp -d)"
+  names_file="$tmp/names"
+  if ! runtime_dependency_names > "$names_file"; then
+    rm -rf "$tmp"
+    return 2
+  fi
+
+  while IFS= read -r name; do
+    [[ -z "$name" ]] && continue
+    check_installed_version "$name" "$tmp/$slot" &
+    slot=$((slot + 1))
+  done < "$names_file"
+  wait || true
+
+  if [[ "$slot" -eq 0 ]]; then
+    rm -rf "$tmp"
+    echo "runtime-package.json に依存がありません。" >&2
+    return 2
+  fi
+  for ((n = 0; n < slot; n++)); do
+    if [[ ! -f "$tmp/$n" ]]; then
+      state="error"
+      break
+    fi
+    verdict="$(cat "$tmp/$n")"
+    case "$verdict" in
+      ok) ;;
+      stale)
+        if [[ "$state" != "error" ]]; then
+          state="stale"
+        fi
+        ;;
+      *)
+        state="error"
+        ;;
+    esac
+  done
+  rm -rf "$tmp"
+
+  case "$state" in
+    ok) return 0 ;;
+    stale) return 1 ;;
+    *)
+      echo "textlint の最新バージョンを確認できませんでした。" >&2
+      return 2
+      ;;
+  esac
+}
+
+install_runtime() {
   echo "textlint を準備しています。" >&2
   mkdir -p "$CACHE"
   cp "$stamp" "$CACHE/package.json"
@@ -118,7 +206,37 @@ if [[ ! -x "$CACHE/node_modules/.bin/textlint" ]] || [[ ! -f "$CACHE/package.jso
     echo "textlint の準備に失敗しました。" >&2
     exit 2
   fi
-fi
+}
+
+update_runtime() {
+  echo "textlint を最新に更新しています。" >&2
+  if ! (cd "$CACHE" && npm update --no-fund --no-audit); then
+    echo "textlint の更新に失敗しました。" >&2
+    exit 2
+  fi
+}
+
+ensure_latest_runtime() {
+  if ! runtime_dependency_names >/dev/null; then
+    exit 2
+  fi
+  if [[ ! -x "$CACHE/node_modules/.bin/textlint" ]] || [[ ! -f "$CACHE/package.json" ]] || ! cmp -s "$stamp" "$CACHE/package.json"; then
+    install_runtime
+  fi
+
+  local match_status=0
+  set +e
+  runtime_is_current
+  match_status=$?
+  set -e
+  case "$match_status" in
+    0) ;;
+    1) update_runtime ;;
+    *) exit 2 ;;
+  esac
+}
+
+ensure_latest_runtime
 
 bundled="$ROOT/textlintrc.${mode}.json"
 echo "mode: $mode" >&2

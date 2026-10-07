@@ -1,13 +1,15 @@
 ---
 name: textlint-ja
 description: >-
-  日本語の文章を textlint で検査し、指摘を直す。
+  日本語の文章をtextlintで検査し、指摘を直す。
+  シェルでtextlintを実行できるときに使う。実行できないときはtextlint-ja-textを使う。
 ---
 
 # textlint-ja
 
 日本語をtextlintで検査し、指摘を直す。
 意味は変えない。言い回しはstop-ai-slop、技術文書の構成はtechnical-writingに従う。
+シェルでtextlintを実行できないときは、textlint-ja-textを使う。
 
 ## Step 1: 対象
 
@@ -19,7 +21,7 @@ description: >-
 このスキルの`scripts/lint.sh`を実行する。
 
 - プロジェクトにtextlintの設定があるときは、その設定で実行する。ルールは足さない。依存もプロジェクトには入れない
-- 設定が無いときは、同梱の設定を使う
+- 設定が無いときは、同梱の設定を使う。実行前に、同梱パッケージがレジストリの最新かを確認し、古ければ更新してから実行する。確認できないときと、更新に失敗したときは実行しない
   - 通常: オプションなし
   - マニュアル、README、仕様、提案、設計文書: `--technical`
 - 漢数字と算用数字の使い分けは、通常も`--technical`も検査する
