@@ -28,7 +28,7 @@ cursor agent plugin marketplace update https://github.com/inadysensei/plugins.gi
 
 ## References
 
-This plugins was inspired by:
+This plugin was inspired by:
 - nanaism/yomiyasu (https://github.com/nanaism/yomiyasu), MIT License,
 Copyright (c) 2026 nanaism. 
 - cursor/plugins pstack (https://github.com/cursor/plugins/tree/main/pstack), MIT License,
