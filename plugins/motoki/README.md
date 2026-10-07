@@ -7,7 +7,7 @@
 Add the marketplace:
 
 ```bash
-cursor agent plugin marketplace add https://github.com/inadysensei/inady-agent-plugin.git
+cursor agent plugin marketplace add https://github.com/inadysensei/plugins.git
 ```
 
 Start the agent, then install the plugin:
@@ -16,7 +16,15 @@ Start the agent, then install the plugin:
 cursor agent
 ```
 
-Run `/plugin`, select **motoki**, and choose **Install for you (user scope)**.
+Run `/plugin`, switch to *Marketplace*, search for **motoki**, and choose **Install for you (user scope)**.
+
+## Update the plugin
+
+Update the marketplace:
+
+```bash
+cursor agent plugin marketplace update https://github.com/inadysensei/plugins.git
+```
 
 ## References
 
