@@ -28,17 +28,6 @@ scripts/lint.sh path/to/file.md
 scripts/lint.sh --technical path/to/manual.md
 ```
 
-通常は次の3つを使う。
-
-- `preset-japanese` — 誤検知の少ない一般向け
-- `preset-ja-spacing` — 全角と半角、かっこのスペース
-- `@textlint-ja/preset-ai-writing` — リスト、誇張、強調、コロン続き
-
-`--technical` では `preset-japanese` の代わりに `preset-ja-technical-writing` を使う。このプリセットは `preset-japanese` の検査を含む。同時には有効にしない。康煕部首だけ `no-kangxi-radicals` を足す。
-
-`ai-tech-writing-guideline` は切ってある。指摘がエラーになり、数値や能動態への書き換えを求めるため。
-`preset-JTF-style` は入れない。スペースと記号が `preset-ja-spacing` と重なる。
-
 ## Step 3: 修正
 
 1. 指摘を読む
