@@ -41,21 +41,18 @@ if [[ ${#files[@]} -eq 0 ]]; then
   exit 2
 fi
 
+# textlint 15 が自分で読む名前だけ。見つけても --config には渡さない。
 find_project_config() {
   local dir="$PWD"
   local name
   while [[ "$dir" != "/" ]]; do
     for name in \
       .textlintrc \
-      .textlintrc.js \
-      .textlintrc.cjs \
-      .textlintrc.mjs \
       .textlintrc.json \
-      .textlintrc.yml \
       .textlintrc.yaml \
-      textlint.config.js \
-      textlint.config.cjs \
-      textlint.config.mjs
+      .textlintrc.yml \
+      .textlintrc.js \
+      .textlintrc.cjs
     do
       if [[ -f "$dir/$name" ]]; then
         printf '%s\n' "$dir/$name"
@@ -72,7 +69,7 @@ find_project_config() {
 }
 
 find_project_textlint() {
-  local dir="$1"
+  local dir="$PWD"
   while [[ "$dir" != "/" ]]; do
     if [[ -x "$dir/node_modules/.bin/textlint" ]]; then
       printf '%s\n' "$dir/node_modules/.bin/textlint"
@@ -100,12 +97,15 @@ run_textlint() {
 if config="$(find_project_config)"; then
   echo "mode: project" >&2
   echo "config: $config" >&2
-  if ! bin="$(find_project_textlint "$(dirname "$config")")"; then
+  if ! bin="$(find_project_textlint)"; then
     echo "textlint の設定はありますが、textlint が入っていません。プロジェクトにはインストールしません。" >&2
     exit 2
   fi
+  set +e
   run_textlint "$bin" "${files[@]}"
-  exit 0
+  status=$?
+  set -e
+  exit "$status"
 fi
 
 stamp="$ROOT/scripts/runtime-package.json"
@@ -113,7 +113,11 @@ if [[ ! -x "$CACHE/node_modules/.bin/textlint" ]] || [[ ! -f "$CACHE/package.jso
   echo "textlint を準備しています。" >&2
   mkdir -p "$CACHE"
   cp "$stamp" "$CACHE/package.json"
-  (cd "$CACHE" && npm install --no-fund --no-audit)
+  if ! (cd "$CACHE" && npm install --no-fund --no-audit); then
+    rm -f "$CACHE/package.json" "$CACHE/node_modules/.bin/textlint"
+    echo "textlint の準備に失敗しました。" >&2
+    exit 2
+  fi
 fi
 
 bundled="$ROOT/textlintrc.${mode}.json"
