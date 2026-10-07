@@ -5,6 +5,6 @@ Each plugin is a standalone directory at the repository root with its own .curso
 
 ## Plugins
 
-| Plugin | Category |Description |
-|--------|--------|-------------|
+| Plugin |Description |
+|--------|--------|
 | [motoki](plugins/motoki) | `motoki` is a tool that helps you work with AI agents. |
