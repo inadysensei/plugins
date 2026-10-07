@@ -20,7 +20,7 @@ description: >-
 
 ### コードレビュー
 
-コードをレビューする場合：
+コードをレビューする場合。
 
 - Logic Review: 意図を理解し、実装、コマンドが正しく動くか。
 - Test Review: 対象範囲のテストを正しく実装しているか。
@@ -28,18 +28,18 @@ description: >-
 
 #### 各レンズをスキップする条件
 
-- HTML、Terraform など、ロジックがないものはTest reviewをスキップ
-- iOSアプリ、LPなど、サーバー間とデータを連携しないものはSecurity Reviewはスキップ
+- HTML、Terraformなど、ロジックがないものはTest reviewをスキップ
+- iOSアプリ、LPなど、サーバー間とデータを連携しないものはSecurity Reviewをスキップ
 
 軽微な修正（文言、リネーム等）の場合は、Logic Reviewのみを実行します。
 
 ### ドキュメントレビュー
 
-ドキュメントをレビューする場合：
+ドキュメントをレビューする場合。
 
 - Logic Review: 意図を理解し、論理の破綻がないか。数値の間違いがないか
-- Writing Review: 文書の書き方が正しいか 誤字脱字がないか。テクニカルな文章は technical-writing skillを使用
-- AI Slop Review: AIっぽい文章がないか stop-ai-slop skillを使う
+- Writing Review: 文書の書き方が正しいか。誤字脱字がないか。テクニカルな文章はtechnical-writing skillを使用
+- AI Slop Review: AIっぽい文章がないか。stop-ai-slop skillを使う
 
 #### 各レンズをスキップする条件
 
@@ -48,9 +48,9 @@ description: >-
 ## Step 3: レビュー
 
 レンズごとにサブエージェントを読み取り専用で並列に起動します。
-各サブエージェントは次のプロンプトを使用します：
+各サブエージェントは次のプロンプトを使用します。
 
-"""
+```text
 # {レンズ}
 
 ## 変更の意図
@@ -63,7 +63,7 @@ description: >-
 
 ## 参照するSkill
 
-必要な場合だけ記述
+必要な場合だけ記述。
 
 ## 出力形式
 
@@ -80,7 +80,7 @@ description: >-
 ## 質問
 
 調査で分からなかったことを正直に書きます。
-"""
+```
 
 ## Step 4: 結果の集計
 
@@ -88,7 +88,7 @@ description: >-
 
 ### 出力形式
 
-"""
+```text
 ## 変更の意図
 
 > {変更の意図}
@@ -102,4 +102,4 @@ description: >-
 ## Step 5: Next Action
 
 各サブエージェントが指摘した内容を総合し、何をやるべきか提案します。
-"""
+```

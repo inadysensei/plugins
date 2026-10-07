@@ -12,22 +12,22 @@ description: >-
 
 ユーザーが質問していること分析し理解します。
 
-ターゲットが曖昧な場合は、会話のコンテキスト(開いているファイル、最近の編集履歴、カーソルの位置、今の会話内容)から最善の推測を行います。その後、ユーザーに推測した内容を確認して、修正するか確認します。
+ターゲットが曖昧な場合は、会話のコンテキスト(開いているファイル、最近の編集履歴、カーソルの位置、今の会話内容)から最善の推測をします。その後、ユーザーに推測した内容を確認して、修正するか確認します。
 
 ## Step 2: 調査員の生成
 
-調査を実行するためのエージェントを生成します。このエージェントは、コードやドキュメントを参照し、ユーザーの質問に回答するための情報を収集します。
+調査するためのエージェントを生成します。このエージェントは、コードやドキュメントを参照し、ユーザーの質問に回答するための情報を収集します。
 
-1. Source code investigator: Gitの履歴、`gh` Pull Request、コードコメント、ソースコードを確認します。
-2. Ticket investigator: (例: Jira, Linear, GitHub Issues, Notion DB)チケットの説明、コメント、チケットの履歴を確認します。
-3. Documentation investigator: (例： Notion, Confluence, Google Docs) ドキュメントから実装の根拠を探します。
-4. Chat investigator: (例： Slack, Teams, Discord) 過去の会話から関連情報を収集します。
-5. Infrastructure investigator: (例： Datadog, New Relic, Sentry) コードの動機となったインフラストラクチャとランタイム、エラーの状況を確認します。
+1. Source code investigator: Gitの履歴、`gh` Pull Request、コードコメント、ソースコードを確認する。
+2. Ticket investigator: (例: Jira, Linear, GitHub Issues, Notion DB)チケットの説明、コメント、チケットの履歴を確認する。
+3. Documentation investigator: (例： Notion, Confluence, Google Docs) ドキュメントから実装の根拠を探す。
+4. Chat investigator: (例： Slack, Teams, Discord) 過去の会話から関連情報を収集する。
+5. Infrastructure investigator: (例： Datadog, New Relic, Sentry) コードの動機となったインフラストラクチャとランタイム、エラーの状況を確認する。
 
 ### 調査員のスキップ
 
 - MCPが利用できない場合は、その調査員をスキップします(例: Slack MCPが接続されていない)
-- 無関係と思われる情報源はスキップします
+- 無関係と思われる情報源はスキップする
 
 ## Step 3: 結果の集計
 
@@ -35,16 +35,16 @@ description: >-
 
 ### 出力形式
 
-"""
+```text
 ## 質問
-ユーザーの質問
+ユーザーの質問。
 
 ## 結論
-わかったことを簡潔に要約する
+わかったことを簡潔に要約する。
 
 ## 参考資料
-出典を添えて、結論の背景を説明する
+出典を添えて、結論の背景を説明する。
 
 ## 不明だったこと
-情報不足、参照権限不足等により、ユーザーの質問に答えられなかったこと
-"""
+情報不足、参照権限不足などにより、ユーザーの質問に答えられなかったこと。
+```
