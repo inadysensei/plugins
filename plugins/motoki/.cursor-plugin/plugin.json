@@ -1,0 +1,14 @@
+{
+  "name": "motoki",
+  "displayName": "motoki",
+  "version": "1.0.0",
+  "description": "Motoki is a tool that helps you work with AI agents.",
+  "author": {
+    "name": "inadysensei"
+  },
+  "homepage": "https://github.com/inadysensei/tree/main/motoki",
+  "repository": "https://github.com/inadysensei/plugins",
+  "license": "MIT",
+  "keywords": ["skills", "review", "writing", "japanese"],
+  "logo": "assets/logo.svg"
+}
