@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "@textlint/markdown": true,
+    "@textlint/text": true
+  },
+  "filters": {
+    "comments": true
+  },
+  "rules": {
+    "preset-japanese": true,
+    "preset-ja-spacing": true,
+    "@textlint-ja/preset-ai-writing": {
+      "ai-tech-writing-guideline": false
+    }
+  }
+}
