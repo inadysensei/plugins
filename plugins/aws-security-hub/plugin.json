@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "aws-security-hub",
+  "description": "AWSのSecurity Hub FSBPを読み、失敗を直すか抑制するかに分けて先へ進める。",
+  "version": "1.0.0",
+  "author": {
+    "name": "inadysensei"
+  },
+  "homepage": "https://github.com/inadysensei/plugins/tree/main/plugins/aws-security-hub",
+  "repository": "https://github.com/inadysensei/plugins",
+  "license": "MIT",
+  "keywords": [
+    "security-hub",
+    "fsbp",
+    "aws"
+  ]
+}

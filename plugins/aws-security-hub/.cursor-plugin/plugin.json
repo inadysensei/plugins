@@ -1,0 +1,20 @@
+{
+  "name": "aws-security-hub",
+  "displayName": "aws-security-hub",
+  "version": "1.0.0",
+  "description": "AWSのSecurity Hub FSBPを読み、失敗を直すか抑制するかに分けて先へ進める。",
+  "author": {
+    "name": "inadysensei"
+  },
+  "homepage": "https://github.com/inadysensei/plugins/tree/main/plugins/aws-security-hub",
+  "repository": "https://github.com/inadysensei/plugins",
+  "license": "MIT",
+  "keywords": [
+    "security-hub",
+    "fsbp",
+    "aws"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

@@ -5,13 +5,18 @@
   },
   "metadata": {
     "description": "Official inady Agent Plugins for development, office work, and other tasks.",
-    "version": "1.1.1"
+    "version": "1.2.0"
   },
   "plugins": [
     {
       "name": "motoki",
       "source": "./plugins/motoki",
       "description": "Motoki is a tool that helps you work with AI agents."
+    },
+    {
+      "name": "aws-security-hub",
+      "source": "./plugins/aws-security-hub",
+      "description": "AWSのSecurity Hub FSBPを読み、失敗を直すか抑制するかに分けて先へ進める。"
     }
   ]
 }
