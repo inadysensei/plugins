@@ -1,4 +1,4 @@
-# inady agent plugins
+# motoki
 
 ## Skillの更新手順
 
@@ -34,5 +34,6 @@ commitしてmainブランチへpushします。
 テストは次のコマンドで実行します。
 
 ```bash
-bash plugins/motoki/skills/textlint-ja/scripts/lint.test.sh
+bash skills/textlint-ja/scripts/lint.test.sh
+bash scripts/layout.test.sh
 ```

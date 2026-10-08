@@ -6,7 +6,6 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cursorNamePattern = /^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
-const marketplaceNamePattern = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 const errors = [];
 
 function addError(message) {
@@ -207,43 +206,25 @@ function validateCursor(manifest, label) {
   }
 }
 
-function normalizeSource(source) {
-  return path.posix.normalize(String(source).replaceAll("\\", "/")).replace(/^\.\//, "");
-}
-
-function isPluginSource(source) {
-  if (typeof source !== "string" || source.length === 0 || path.isAbsolute(source)) {
-    return false;
-  }
-  const normalized = normalizeSource(source);
-  return (
-    normalized.startsWith("plugins/") &&
-    normalized !== "plugins" &&
-    !normalized.startsWith("../") &&
-    !normalized.includes("/../")
-  );
-}
-
-function validateSkills(source) {
-  const skillsLabel = `${source}/skills`;
-  const skillsDir = path.join(root, source, "skills");
+function validateSkills() {
+  const skillsDir = path.join(root, "skills");
   let entries;
   try {
     entries = readdirSync(skillsDir);
   } catch {
-    addError(`${skillsLabel}/ が無い`);
+    addError("skills/ が無い");
     return;
   }
 
   const skillDirs = entries.filter((entry) => !entry.startsWith("."));
   if (skillDirs.length === 0) {
-    addError(`${skillsLabel}/ にスキルが無い`);
+    addError("skills/ にスキルが無い");
     return;
   }
 
   for (const entry of skillDirs) {
     const skillDir = path.join(skillsDir, entry);
-    const skillLabel = `${skillsLabel}/${entry}`;
+    const skillLabel = `skills/${entry}`;
     if (!statSync(skillDir).isDirectory()) {
       addError(`${skillLabel} はディレクトリである`);
       continue;
@@ -272,42 +253,18 @@ function validateSkills(source) {
   }
 }
 
-function validateMarketplace(manifest, label) {
-  if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
-    addError(`${label} は object である`);
-    return false;
-  }
-
-  if (typeof manifest.name !== "string" || !marketplaceNamePattern.test(manifest.name)) {
-    addError(`${label} の name は小文字のケバブケースである`);
-  }
-  if (!manifest.owner || typeof manifest.owner.name !== "string" || manifest.owner.name.length === 0) {
-    addError(`${label} の owner.name が無い`);
-  }
-  if (!Array.isArray(manifest.plugins) || manifest.plugins.length === 0) {
-    addError(`${label} の plugins は空でない配列である`);
-    return false;
-  }
-
-  return true;
-}
-
-function rejectRootPlugin() {
-  for (const relativePath of [
-    "plugin.json",
-    ".cursor-plugin/plugin.json",
-    "skills",
-  ]) {
+function rejectMarketplaceLayout() {
+  for (const relativePath of [".cursor-plugin/marketplace.json", "plugins"]) {
     try {
       statSync(path.join(root, relativePath));
-      addError(`${relativePath} はルートに置かない。plugins/ の中に置く`);
+      addError(`${relativePath} は単体プラグインでは置かない`);
     } catch {
-      // ルートは marketplace なので、プラグイン本体が無いのが正しい。
+      // 無いのが正しい。
     }
   }
 }
 
-function validatePluginFile(source, fileValue, label) {
+function validatePluginFile(fileValue, label) {
   if (fileValue.startsWith("http://") || fileValue.startsWith("https://")) {
     return;
   }
@@ -322,47 +279,18 @@ function validatePluginFile(source, fileValue, label) {
     return;
   }
 
-  const filePath = path.join(root, source, normalized);
+  const filePath = path.join(root, normalized);
   try {
     if (!statSync(filePath).isFile()) {
       addError(`${label} はファイルである`);
     }
   } catch {
-    addError(`${source}/${normalized} が無い`);
+    addError(`${normalized} が無い`);
   }
 }
 
-function validatePlugin(entry, label) {
-  if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
-    addError(`${label} は object である`);
-    return;
-  }
-  if (typeof entry.name !== "string" || !cursorNamePattern.test(entry.name)) {
-    addError(`${label} の name は小文字の英数字、ハイフン、ピリオドである`);
-    return;
-  }
-  if (!isPluginSource(entry.source)) {
-    addError(`${label} の source は plugins/ 以下の相対パスである`);
-    return;
-  }
-
-  const source = normalizeSource(entry.source);
-  if (path.posix.basename(source) !== entry.name) {
-    addError(`${label} の source のディレクトリ名は ${entry.name} である`);
-  }
-
-  const pluginDir = path.join(root, source);
-  try {
-    if (!statSync(pluginDir).isDirectory()) {
-      addError(`${source} はディレクトリである`);
-      return;
-    }
-  } catch {
-    addError(`${source} が無い`);
-    return;
-  }
-
-  const agentLabel = `${source}/plugin.json`;
+function validateRootPlugin() {
+  const agentLabel = "plugin.json";
   const agent = readJson(agentLabel);
   if (schema && agent) {
     validateSchema(agent, schema, agentLabel);
@@ -374,35 +302,19 @@ function validatePlugin(entry, label) {
     return;
   }
 
-  const cursorLabel = `${source}/.cursor-plugin/plugin.json`;
+  const cursorLabel = ".cursor-plugin/plugin.json";
   const cursor = readJson(cursorLabel);
   validateCursor(cursor, cursorLabel);
   if (cursor && typeof cursor.logo === "string") {
-    validatePluginFile(source, cursor.logo, `${cursorLabel} の logo`);
+    validatePluginFile(cursor.logo, `${cursorLabel} の logo`);
   }
   sameIdentity(cursorLabel, cursor, agent);
-  validateSkills(source);
+  validateSkills();
 }
 
 const schema = readJson("scripts/schemas/agent-plugins-1.0.0-plugin.schema.json");
-rejectRootPlugin();
-
-const cursorMarketplace = readJson(".cursor-plugin/marketplace.json");
-const cursorOk = validateMarketplace(cursorMarketplace, ".cursor-plugin/marketplace.json");
-
-if (cursorOk) {
-  const seen = new Set();
-  for (const [index, entry] of cursorMarketplace.plugins.entries()) {
-    const label = `.cursor-plugin/marketplace.json plugins[${index}]`;
-    if (entry && seen.has(entry.name)) {
-      addError(`${label} の name が重複している`);
-    }
-    if (entry?.name) {
-      seen.add(entry.name);
-    }
-    validatePlugin(entry, label);
-  }
-}
+rejectMarketplaceLayout();
+validateRootPlugin();
 
 if (errors.length > 0) {
   console.error("検査に失敗した:");
