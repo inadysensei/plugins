@@ -1,7 +1,6 @@
 ---
 name: motoki-mode
-description: >-
-  motoki の仕事の入口。頼まれごとを平易な言葉に言い直してから、理解、案の比較、変更、レビュー、文書、PR、既存スキルの更新のどれへ渡すかを決める。motoki mode、/motoki-mode、この手順で仕事をする、と指定されたときに使う。雑談には使わない。
+description: motoki の仕事の入口。頼まれごとを平易な言葉に言い直してから、理解、案の比較、変更、レビュー、文書、PR、既存スキルの更新のどれへ渡すかを決める。motoki mode、/motoki-mode、この手順で仕事をする、と指定されたときに使う。雑談には使わない。
 disable-model-invocation: true
 icon: crown
 ---

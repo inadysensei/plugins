@@ -1,7 +1,6 @@
 ---
 name: pr-watch
-description: >-
-  Pull Requestがマージできるかをチェックする。Pull Requestを作成したらこのスキルを起動します。
+description: Pull Requestがマージできるかをチェックする。Pull Requestを作成したらこのスキルを起動します。
 ---
 
 # pr-watch

@@ -1,8 +1,6 @@
 ---
 name: textlint-ja
-description: >-
-  日本語の文章をtextlintで検査し、指摘を直す。
-  シェルでtextlintを実行できるときに使う。実行できないときはproofread-jaを使う。
+description: 日本語の文章をtextlintで検査し、指摘を直す。シェルでtextlintを実行できるときに使う。実行できないときはproofread-jaを使う。
 ---
 
 # textlint-ja

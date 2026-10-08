@@ -1,8 +1,6 @@
 ---
 name: correct
-description: >-
-  エージェントが同じ誤りを繰り返す箇所を、次に起きないように直す。
-  人が直したときは、同じ手順を繰り返す。/correct のときに使う。
+description: エージェントが同じ誤りを繰り返す箇所を、次に起きないように直す。  人が直したときは、同じ手順を繰り返す。/correct のときに使う。
 disable-model-invocation: true
 ---
 

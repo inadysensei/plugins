@@ -1,7 +1,6 @@
 ---
 name: technical-writing
-description: >-
-  マニュアルや提案書などロジカルな文章を書く、または直すときに使う。
+description: マニュアルや提案書などロジカルな文章を書く、または直すときに使う。
 ---
 
 # technical-writing

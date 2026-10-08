@@ -1,7 +1,6 @@
 ---
 name: why
-description: >-
-  なぜこのような実装をしたのかを説明する。
+description: なぜこのような実装をしたのかを説明する。
 ---
 
 # why

@@ -1,9 +1,6 @@
 ---
 name: proofread-ja
-description: >-
-  コードを実行できない環境で、日本語の文章をtextlint-jaと同じ基準で読み、指摘を直す。
-  Notion AIのように、シェルでtextlintを実行できないときに使う。
-  シェルでtextlintを実行できるときはtextlint-jaを使う。
+description: コードを実行できない環境で、日本語の文章をtextlint-jaと同じ基準で読み、指摘を直す。Notion AIのように、シェルでtextlintを実行できないときに使う。シェルでtextlintを実行できるときはtextlint-jaを使う。
 ---
 
 # proofread-ja
