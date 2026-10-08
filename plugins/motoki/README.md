@@ -12,7 +12,7 @@
 
 ## Installation(skills command)
 
-1. Run `npx skills add https://github.com/inadysensei/plugins/tree/main/plugins/motoki`
+1. Run `npx skills add inadysensei/plugins`
 
 ## References
 
