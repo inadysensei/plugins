@@ -1,3 +1,8 @@
+---
+name: prepare-fix
+description: 是正と判断したSecurity Hubの指摘について、IaCのPull Requestを準備する。是正の準備を頼まれたときに使う。
+---
+
 # 是正を準備する
 
 是正と判断したものについてIaCのPull Requestを作成します。

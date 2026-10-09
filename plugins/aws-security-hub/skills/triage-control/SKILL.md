@@ -1,9 +1,14 @@
+---
+name: triage-control
+description: Security HubのFAILEDを、是正、抑制、証拠不足、対象外のどれか1つに分ける。指摘の分類、トリアージで使う。
+---
+
 # コントロールを分ける
 
 FAILEDの1件を、是正、抑制、証拠不足、対象外のどれか1つにします。
 
 一覧があるときは、`Severity.Label`のCRITICAL、HIGH、その他の順です。
-同じ深刻度ではコントロールIDの順です。1件終わるたびに次のplaybookへ進み、一覧の確認は待ちません。
+同じ深刻度ではコントロールIDの順です。1件の判定が終わったら、是正は`prepare-fix`、抑制は`prepare-suppress`を開きます。証拠不足と対象外はここで止めます。一覧の確認は待ちません。
 
 ## 手順
 
