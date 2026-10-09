@@ -17,8 +17,7 @@ description: AWSのSecurity Hubで、失敗の読み取り、直すか抑制す�
 1. 抑制：抑制理由の作成を頼まれている。`prepare-suppress` skill
 2. 是正：是正の準備を頼まれている。`prepare-fix` skill
 3. トリアージ：Security Hubの指摘を分類する。`triage-control` skill
-4. 調査：失敗の理由、現状、リソースの所在を聞く。変更はまだしない。`investigate` skill
-5. 一覧：失敗一覧、未対応、Security Hubの状況を頼まれている。一覧がまだ無い。`read-findings` skill
+4. 一覧：失敗一覧、未対応、Security Hubの状況を頼まれている。一覧がまだ無い。`read-findings` skill
 
 ## 自分で進める
 

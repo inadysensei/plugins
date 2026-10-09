@@ -1,7 +1,7 @@
 {
   "name": "aws-security-hub",
   "displayName": "aws-security-hub",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "AWSのSecurity Hub FSBPを読み、失敗を直すか抑制するかに分けて先へ進める。",
   "author": {
     "name": "inadysensei"
