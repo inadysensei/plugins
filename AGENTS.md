@@ -1,5 +1,9 @@
 # inady agent plugins
 
+## IMPORTANT
+
+このリポジトリはPublicです。認証情報、秘密、顧客データ、アカウント識別子はcommitしません。remoteへのpushは、ユーザーが確認してから行います。
+
 ## Skillの更新手順
 
 ### Step 1: Skillの更新
@@ -15,9 +19,10 @@
 
 `bump-plugin-version` Skillを実行します。
 
-### Step 4: Commit and push
+### Step 4: Commit
 
-commitしてmainブランチへpushします。
+変更をcommitします。
+remoteへは、ユーザーが確認してからpushします。確認の前にpushしません。
 
 ## TDD（Red / Green / Refactor）
 
