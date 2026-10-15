@@ -147,11 +147,11 @@ test_versions() {
   hub_a="$(json_field "$REPO/plugins/aws-security-hub/plugin.json" version)"
   hub_b="$(json_field "$REPO/plugins/aws-security-hub/.cursor-plugin/plugin.json" version)"
   market="$(json_field "$REPO/.cursor-plugin/marketplace.json" metadata.version)"
-  [[ "$motoki_a" == "1.6.1" ]]
-  [[ "$motoki_b" == "1.6.1" ]]
+  [[ "$motoki_a" == "1.7.1" ]]
+  [[ "$motoki_b" == "1.7.1" ]]
   [[ "$hub_a" == "1.1.3" ]]
   [[ "$hub_b" == "1.1.3" ]]
-  [[ "$market" == "1.7.1" ]]
+  [[ "$market" == "1.8.1" ]]
 }
 
 run_case "スキル名と使用量" test_skill_name
@@ -166,6 +166,6 @@ run_case "大きなコード作業の切り分け" test_cloud_agent
 run_case "やり直しの上限" test_retry_limit
 run_case "減らす前に測る" test_measure_first
 run_case "出典を書かない" test_no_citation
-run_case "patch バージョン" test_versions
+run_case "minor バージョン" test_versions
 
 exit "$failed"
