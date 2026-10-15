@@ -1,7 +1,8 @@
 # inady agent plugins
 
 Official inady agent plugins for development, office work, and other tasks.
-Each plugin is a standalone directory at the repository root with its own .cursor-plugin/plugin.json manifest.
+Each plugin is a standalone directory at the repository root.
+The directory has its own .cursor-plugin/plugin.json manifest.
 
 ## Plugins
 
