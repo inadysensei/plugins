@@ -3,8 +3,11 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkSkillNames, parseFrontmatter } from "./check-skill-names.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const defaultRoot = path.resolve(scriptDir, "..");
+const root = process.argv[2] ? path.resolve(process.argv[2]) : defaultRoot;
 const cursorNamePattern = /^[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
 const marketplaceNamePattern = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 const errors = [];
@@ -13,22 +16,25 @@ function addError(message) {
   errors.push(message);
 }
 
-function readJson(relativePath) {
-  const filePath = path.join(root, relativePath);
+function readJsonFile(filePath, label) {
   let raw;
   try {
     raw = readFileSync(filePath, "utf8");
   } catch {
-    addError(`${relativePath} が無い`);
+    addError(`${label} が無い`);
     return null;
   }
 
   try {
     return JSON.parse(raw);
   } catch (error) {
-    addError(`${relativePath} の JSON が壊れている: ${error.message}`);
+    addError(`${label} の JSON が壊れている: ${error.message}`);
     return null;
   }
+}
+
+function readJson(relativePath) {
+  return readJsonFile(path.join(root, relativePath), relativePath);
 }
 
 function pointer(instancePath, key) {
@@ -104,58 +110,6 @@ function validateSchema(data, schema, instancePath) {
       addError(`${instancePath} が pattern に合わない`);
     }
   }
-}
-
-function parseFrontmatter(content) {
-  const normalized = content.replaceAll("\r\n", "\n");
-  if (!normalized.startsWith("---\n")) {
-    return null;
-  }
-
-  const closingIndex = normalized.indexOf("\n---\n", 4);
-  if (closingIndex === -1) {
-    return null;
-  }
-
-  const fields = {};
-  const lines = normalized.slice(4, closingIndex).split("\n");
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-    if (!line.trim() || line.trim().startsWith("#") || /^\s/.test(line)) {
-      continue;
-    }
-
-    const separator = line.indexOf(":");
-    if (separator === -1) {
-      continue;
-    }
-
-    const key = line.slice(0, separator).trim();
-    let value = line.slice(separator + 1).trim();
-    if (value === ">-" || value === ">" || value === "|" || value === "|-" || value === "|+") {
-      const parts = [];
-      while (index + 1 < lines.length) {
-        const next = lines[index + 1];
-        if (next.trim() !== "" && !/^\s/.test(next)) {
-          break;
-        }
-        index += 1;
-        if (next.trim() !== "") {
-          parts.push(next.trim());
-        }
-      }
-      value = value.startsWith(">") ? parts.join(" ") : parts.join("\n");
-    } else if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-
-    fields[key] = value;
-  }
-
-  return fields;
 }
 
 function sameIdentity(label, manifest, agent) {
@@ -263,9 +217,6 @@ function validateSkills(source) {
       continue;
     }
 
-    if (frontmatter.name !== entry) {
-      addError(`${skillLabel}/SKILL.md の name は ${entry} である`);
-    }
     if (!frontmatter.description) {
       addError(`${skillLabel}/SKILL.md の description が無い`);
     }
@@ -384,7 +335,10 @@ function validatePlugin(entry, label) {
   validateSkills(source);
 }
 
-const schema = readJson("scripts/schemas/agent-plugins-1.0.0-plugin.schema.json");
+const schema = readJsonFile(
+  path.join(scriptDir, "schemas/agent-plugins-1.0.0-plugin.schema.json"),
+  "scripts/schemas/agent-plugins-1.0.0-plugin.schema.json",
+);
 rejectRootPlugin();
 
 const cursorMarketplace = readJson(".cursor-plugin/marketplace.json");
@@ -402,6 +356,10 @@ if (cursorOk) {
     }
     validatePlugin(entry, label);
   }
+}
+
+for (const message of checkSkillNames(root)) {
+  addError(message);
 }
 
 if (errors.length > 0) {
