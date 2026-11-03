@@ -10,7 +10,7 @@ The directory has its own .cursor-plugin/plugin.json manifest.
 |--------|--------|
 | [motoki](plugins/motoki) | `motoki` is a tool that helps you work with AI agents. |
 | [aws-security-hub](plugins/aws-security-hub) | AWSのSecurity Hub FSBPを読み、失敗を直すか抑制するかに分けて先へ進める。 |
-| [secretary](plugins/secretary) | 秘書ボットの定例確認です。平日の未確認メンションと@channelを、番号付きで報告します。 |
+| [secretary](plugins/secretary) | 日常タスクに対応するためのSkillsです。 |
 
 ## Installation(Cursor)
 
