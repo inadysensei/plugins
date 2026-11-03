@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "secretary",
+  "description": "秘書ボットの定例確認です。平日の未確認メンションと@channelを、番号付きで親に渡します。",
+  "version": "1.0.0",
+  "author": {
+    "name": "inadysensei"
+  },
+  "homepage": "https://github.com/inadysensei/plugins/tree/main/plugins/secretary",
+  "repository": "https://github.com/inadysensei/plugins",
+  "license": "MIT",
+  "keywords": [
+    "secretary",
+    "slack",
+    "todo"
+  ]
+}
