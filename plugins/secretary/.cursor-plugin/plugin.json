@@ -1,7 +1,7 @@
 {
   "name": "secretary",
   "displayName": "secretary",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "日常タスクに対応するためのSkillsです。平日の未確認メンションと@channelを、番号付きで親に渡します。",
   "author": {
     "name": "inadysensei"
@@ -12,7 +12,8 @@
   "keywords": [
     "secretary",
     "slack",
-    "todo"
+    "todo",
+    "mac"
   ],
   "skills": "./skills/"
 }
