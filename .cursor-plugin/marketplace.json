@@ -21,7 +21,7 @@
     {
       "name": "secretary",
       "source": "./plugins/secretary",
-      "description": "秘書ボットの定例確認です。平日の未確認メンションと@channelを、番号付きで親に渡します。"
+      "description": "日常タスクに対応するためのSkillsです。"
     }
   ]
 }
