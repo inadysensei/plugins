@@ -21,3 +21,12 @@ This plugin was inspired by:
 Copyright (c) 2026 nanaism. 
 - cursor/plugins pstack (https://github.com/cursor/plugins/tree/main/pstack), MIT License,
 Copyright (c) 2026 Lauren Tan.
+
+design-unslop is adapted from:
+- heydamir/unslop (https://github.com/heydamir/unslop) at 97daa3eb365670ea3f87ed85356cbfcee18105a5, CC BY 4.0,
+Copyright Damir Sokolovsky (@heydamir).
+Japanese translation for Japanese UI.
+Type, line spacing and tracking are replaced.
+On-screen copy covers only what shows on the screen.
+Reference images are included.
+story.mjs accepts Japanese step names and reveals Japanese one character at a time.
