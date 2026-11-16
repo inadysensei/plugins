@@ -30,3 +30,7 @@ Type, line spacing and tracking are replaced.
 On-screen copy covers only what shows on the screen.
 Reference images are included.
 story.mjs accepts Japanese step names and reveals Japanese one character at a time.
+
+core-message-writing is adapted from:
+- shibayu36/agent-skills (https://github.com/shibayu36/agent-skills/blob/main/skills/core-message-writing/SKILL.md) at 688663bdaa912f73e9c9631516d678ab110342bb, MIT License,
+Copyright (c) 2026 shibayu36.
